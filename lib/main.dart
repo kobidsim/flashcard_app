@@ -4,6 +4,9 @@ void main() {
   runApp(const MyApp());
 }
 
+//user data
+List<String> decks = <String>["hyatteri 1", "Deck 2", "Deck 3"];
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -25,13 +28,13 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
+        backgroundColor: theme.colorScheme.secondary,
         appBar: AppBar(
-          title: const Text('Decks'),
+          title: const Text('My Decks'),
         ),
-        body: const Center(
-          child: Text('Hello World'),
-        ),
+        body: DeckList(decks: decks),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
@@ -42,10 +45,28 @@ class MyHomePage extends StatelessWidget {
 }
 
 class DeckList extends StatelessWidget {
-  const DeckList({super.key});
+  const DeckList({required this.decks, super.key});
+
+  final List<String> decks;
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    final ThemeData theme = Theme.of(context);
+
+    return GridView.builder(
+        itemCount: decks.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            mainAxisSpacing: 2, crossAxisSpacing: 2, crossAxisCount: 2),
+        itemBuilder: (BuildContext context, int index) {
+          return Card(
+            color: theme.colorScheme.onSecondary,
+            child: Center(
+              child: Text(
+                decks[index],
+                style: theme.textTheme.headlineSmall,
+              ),
+            ),
+          );
+        });
   }
 }
