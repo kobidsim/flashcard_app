@@ -30,7 +30,7 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
-        backgroundColor: theme.colorScheme.secondary,
+        backgroundColor: theme.colorScheme.background,
         appBar: AppBar(
           title: const Text('My Decks'),
         ),
@@ -53,17 +53,15 @@ class DeckList extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
-    return GridView.builder(
+    return ListView.builder(
         itemCount: decks.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            mainAxisSpacing: 2, crossAxisSpacing: 2, crossAxisCount: 2),
         itemBuilder: (BuildContext context, int index) {
           return Card(
-            color: theme.colorScheme.onSecondary,
-            child: Center(
-              child: Text(
+            color: theme.colorScheme.surface,
+            child: ListTile(
+              title: Text(
                 decks[index],
-                style: theme.textTheme.headlineSmall,
+                style: TextStyle(color: theme.colorScheme.onSurface),
               ),
             ),
           );
