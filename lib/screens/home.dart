@@ -38,7 +38,7 @@ class DeckList extends StatelessWidget {
               child: ListTile(
                 leading: const Icon(Icons.book),
                 title: Text(
-                  decks.items[index],
+                  decks.deckNames[index],
                   style: TextStyle(color: theme.colorScheme.onSurface),
                 ),
               ),

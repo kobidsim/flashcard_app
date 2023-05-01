@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'dart:collection';
+import 'package:flashcard_app/entities/user.dart';
+import 'package:flashcard_app/entities/deck.dart';
 
 class DeckData extends ChangeNotifier {
-  final List<String> _decks = <String>[];
+  final UnmodifiableListView<Deck> _decks = user.decks;
 
-  UnmodifiableListView<String> get items => UnmodifiableListView(_decks);
-
+  UnmodifiableListView<Deck> get items => _decks;
   int get noOfDecks => _decks.length;
+  List<String> get deckNames => _decks.map((deck) => deck.name).toList();
 
   void addToDeck(String deck) {
-    _decks.add(deck);
+    user.addDeck = Deck(deck);
     notifyListeners();
   }
 }
