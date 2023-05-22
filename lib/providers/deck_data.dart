@@ -1,17 +1,24 @@
-import 'package:flutter/material.dart';
 import 'dart:collection';
+
+import 'package:flashcard_app/entities/flash_card.dart';
+import 'package:flutter/material.dart';
 import 'package:flashcard_app/entities/user.dart';
 import 'package:flashcard_app/entities/deck.dart';
 
+//provides a particular deck's data
 class DeckData extends ChangeNotifier {
-  final UnmodifiableListView<Deck> _decks = user.decks;
+  Deck? _deck;
 
-  UnmodifiableListView<Deck> get items => _decks;
-  int get noOfDecks => _decks.length;
-  List<String> get deckNames => _decks.map((deck) => deck.name).toList();
+  Deck? get deck => _deck;
+  int? get totalCards => (_deck!.noOfCards);
+  int get freshNewCards => (_deck!.freshNewCards());
+  int get toBeReviewed => (_deck!.toBeReviewed());
+  UnmodifiableListView<FlashCard> get cards => _deck!.cards;
 
-  void addToDeck(String deck) {
-    user.addDeck = Deck(deck);
+  //set which deck's data we need provided
+  set initDeck(String deckName) => _deck = user.deck(deckName);
+  void addCard(String front, String back) {
+    _deck!.addCard(front, back);
     notifyListeners();
   }
 }

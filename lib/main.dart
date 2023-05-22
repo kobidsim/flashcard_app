@@ -1,12 +1,14 @@
 import 'package:flashcard_app/providers/deck_data.dart';
+import 'package:flashcard_app/providers/deck_list_data.dart';
 import 'screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => DeckData())],
-      child: const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => DeckListData()),
+    ChangeNotifierProvider(create: (context) => DeckData())
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

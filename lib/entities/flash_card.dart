@@ -4,7 +4,9 @@ class FlashCard {
   String _front = "";
   String _back = "";
   CardStatus _status = CardStatus.new_;
-  bool? _studied;
+  //_reviewed is True for cards that don't need to be currently reviewed
+  //it is not the same as CardStatus.new_
+  bool? _reviewed;
   List<String> _tags = [];
 
   //constructor
@@ -13,13 +15,14 @@ class FlashCard {
     _back = back;
     _tags = tags;
     _status = CardStatus.new_;
-    _studied = false;
+    _reviewed = false;
   }
 
   //getters
-  String get getFront => _front;
-  String get getBack => _back;
-  CardStatus get getStatus => _status;
+  String get front => _front;
+  String get back => _back;
+  CardStatus get status => _status;
+  bool get reviewed => _reviewed ?? false;
 
   //setters
   set setFront(String front) => _front = front;
