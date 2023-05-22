@@ -36,7 +36,7 @@ class _DeckPageState extends State<DeckPage> {
   }
 }
 
-//you were here
+//The whole Card List, Add and Search part of the page
 class CardSearch extends StatelessWidget {
   CardSearch({super.key});
   final cardFrontText = TextEditingController();

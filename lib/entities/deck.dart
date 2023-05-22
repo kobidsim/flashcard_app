@@ -13,14 +13,22 @@ class Deck {
   //counts how many fresh new cards exist and returns the count
   int freshNewCards() {
     int count = 0;
-    _cards!.map((card) => (card.status == CardStatus.new_ ? count++ : count));
+    for (var card in _cards ?? <FlashCard>[]) {
+      if (card.status == CardStatus.new_) {
+        count++;
+      }
+    }
     return count;
   }
 
   //counts how many cards are to be reviewed at the moment
   int toBeReviewed() {
     int count = 0;
-    _cards!.map((card) => (!card.reviewed ? count++ : count));
+    for (var card in _cards ?? <FlashCard>[]) {
+      if (!card.reviewed) {
+        count++;
+      }
+    }
     return count;
   }
 
