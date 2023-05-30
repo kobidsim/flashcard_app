@@ -10,11 +10,11 @@ class Deck {
     _cards = <FlashCard>[];
   }
 
-  //counts how many fresh new cards exist and returns the count
-  int freshNewCards() {
+  //counts the cards of the specific status
+  int findCardsOfType(CardStatus status) {
     int count = 0;
     for (var card in _cards ?? <FlashCard>[]) {
-      if (card.status == CardStatus.new_) {
+      if (card.status == status) {
         count++;
       }
     }
