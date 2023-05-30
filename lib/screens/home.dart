@@ -1,6 +1,7 @@
+import 'package:flashcard_app/screens/deck_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/deck_data.dart';
+import '../providers/deck_list_data.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -29,13 +30,19 @@ class DeckList extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
-    return Consumer<DeckData>(builder: (context, decks, child) {
+    return Consumer<DeckListData>(builder: (context, decks, child) {
       return ListView.builder(
           itemCount: decks.noOfDecks,
           itemBuilder: (BuildContext context, int index) {
             return Card(
               color: theme.colorScheme.surface,
               child: ListTile(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => DeckPage(
+                            deckName: decks.items[index].name,
+                          )));
+                },
                 leading: const Icon(Icons.book),
                 title: Text(
                   decks.deckNames[index],
@@ -72,8 +79,8 @@ class AddDeckButton extends StatelessWidget {
                   TextButton(
                       onPressed: () {
                         if (inputController.text != "") {
-                          Provider.of<DeckData>(context, listen: false)
-                              .addToDeck(inputController.text);
+                          Provider.of<DeckListData>(context, listen: false)
+                              .addToDeckList(inputController.text);
                           inputController.text = "";
                         }
                         Navigator.of(context).pop();
