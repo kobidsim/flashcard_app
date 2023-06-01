@@ -21,6 +21,16 @@ class Deck {
     return count;
   }
 
+  List<FlashCard> cardsToStudy() {
+    List<FlashCard> unreviewedCards = <FlashCard>[];
+    for (var card in _cards ?? <FlashCard>[]) {
+      if (!card.reviewed) {
+        unreviewedCards.add(card);
+      }
+    }
+    return unreviewedCards;
+  }
+
   //counts how many cards are to be reviewed at the moment
   int toBeReviewed() {
     int count = 0;
@@ -34,6 +44,15 @@ class Deck {
 
   void addCard(String front, String back) =>
       _cards!.add(FlashCard(front, back, <String>[]));
+
+  void changeCardStatus(FlashCard card, CardStatus status) {
+    for (var c in _cards ?? <FlashCard>[]) {
+      if (c.front == card.front && c.back == card.back) {
+        c.setStatus = status;
+        c.reviewed = true;
+      }
+    }
+  }
 
   String get name => _name;
   int get noOfCards => (_cards!.length);

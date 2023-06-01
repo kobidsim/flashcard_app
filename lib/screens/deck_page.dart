@@ -1,4 +1,5 @@
 import 'package:flashcard_app/providers/deck_data.dart';
+import 'package:flashcard_app/screens/study_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
@@ -49,7 +50,13 @@ class _DeckPageState extends State<DeckPage> {
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0))),
                   ),
-                  onPressed: () => {},
+                  onPressed: () => {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => StudyPage(
+                                flashCards: Provider.of<DeckData>(context,
+                                        listen: false)
+                                    .cardsToStudy)))
+                      },
                   child: const Text("Study Cards")),
             ),
             const SizedBox(
@@ -303,8 +310,8 @@ class CircularProgressBar extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 10.0;
 
-    debugPrint(
-        "DEBUG::\nred ratio: $redStart\nyellow ratio: $yellowStart\ngreen ratio: $greenStart\ngrey ratio: $greyStart");
+    //debugPrint(
+    //    "DEBUG::\nred ratio: $redStart\nyellow ratio: $yellowStart\ngreen ratio: $greenStart\ngrey ratio: $greyStart");
 
     arc(canvas, redStart, redSweep, redPaint, rect);
     arc(canvas, yellowStart, yellowSweep, yellowPaint, rect);

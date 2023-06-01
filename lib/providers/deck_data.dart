@@ -18,11 +18,18 @@ class DeckData extends ChangeNotifier {
   int get toBeReviewed => (_deck!.toBeReviewed());
   UnmodifiableListView<FlashCard> get cards => _deck!.cards;
 
+  List<FlashCard> get cardsToStudy => _deck!.cardsToStudy();
+
   //set which deck's data we need provided
   set initDeck(String deckName) => _deck = user.deck(deckName);
 
   void addCard(String front, String back) {
     _deck!.addCard(front, back);
+    notifyListeners();
+  }
+
+  void changeCardStatus(FlashCard card, CardStatus status) {
+    _deck!.changeCardStatus(card, status);
     notifyListeners();
   }
 }

@@ -27,6 +27,8 @@ class FlashCard {
   //setters
   set setFront(String front) => _front = front;
   set setBack(String back) => _back = back;
+  set setStatus(CardStatus status) => _status = status;
+  set reviewed(bool review) => _reviewed = review;
 
   //methods
   bool hasTag(String tag) => _tags.contains(tag);
