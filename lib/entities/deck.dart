@@ -22,9 +22,11 @@ class Deck {
   }
 
   List<FlashCard> cardsToStudy() {
+    DateTime now = DateTime.now();
     List<FlashCard> unreviewedCards = <FlashCard>[];
     for (var card in _cards ?? <FlashCard>[]) {
-      if (!card.reviewed) {
+      //if (true) {   //for testing scheduling algorithm
+      if (now.isAfter(card.scheduledFor)) {
         unreviewedCards.add(card);
       }
     }
@@ -32,14 +34,16 @@ class Deck {
   }
 
   //counts how many cards are to be reviewed at the moment
-  int toBeReviewed() {
+  int get toBeReviewed {
+    DateTime now = DateTime.now();
     int count = 0;
     for (var card in _cards ?? <FlashCard>[]) {
-      if (!card.reviewed) {
+      if (now.isAfter(card.scheduledFor)) {
         count++;
       }
     }
     return count;
+    //return _cards!.length; //for testing scheduling algorithm
   }
 
   void addCard(String front, String back) =>
@@ -50,6 +54,7 @@ class Deck {
       if (c.front == card.front && c.back == card.back) {
         c.setStatus = status;
         c.reviewed = true;
+        c.changeCardStatus(status);
       }
     }
   }

@@ -44,6 +44,7 @@ class _StudyPageState extends State<StudyPage> {
     if (widget.flashCards.isNotEmpty) {
       Provider.of<DeckData>(context, listen: false)
           .changeCardStatus(widget.flashCards.last, status);
+      hide();
       setState(() {
         widget.flashCards.removeLast();
       });
