@@ -15,4 +15,10 @@ class DeckListData extends ChangeNotifier {
     user.addDeck = Deck(deck);
     notifyListeners();
   }
+
+  void removeFromDeckList(String deckName) {
+    debugPrint("DEBUG::DELETE:: deleting $deckName");
+    user.removeDeck(deckName);
+    notifyListeners();
+  }
 }

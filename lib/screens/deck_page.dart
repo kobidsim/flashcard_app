@@ -98,6 +98,11 @@ class CardList extends StatelessWidget {
                   //currently only showing the front text of the card but
                   //need to make this better somehow
                   title: Text(deck.cards[index].front),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () => deck.removeCard(
+                        deck.cards[index].front, deck.cards[index].back),
+                  ),
                 );
               });
         }));

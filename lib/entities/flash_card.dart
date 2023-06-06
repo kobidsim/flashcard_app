@@ -63,17 +63,25 @@ class FlashCard {
             .interval; //calculating how late the user is based on the given interval of the card
     double normLateness = 2 * (latenessPercent) - 1;
     //currently this form of efactor calculation treats Easy and Medium score as the same thing when scheduled
-    eFactor = min(max(1.3, previous.eFactor + (normLateness + normScore)), 2.5);
+    eFactor = min(
+        max(
+            1.3,
+            previous.eFactor +
+                0.1 * (normLateness + normScore) +
+                (1 / (previous.streak > 3 ? previous.streak : 3)) * normScore),
+        2.5);
     /* debugPrint("DEBUG::SCHEDULING:: lateness = $lateness");
     debugPrint("DEBUG::SCHEDULING:: latenessPercent = $latenessPercent");
     debugPrint("DEBUG::SCHEDULING:: Prev Interval = $normLateness"); */
-    debugPrint(
+    /* debugPrint(
         "DEBUG::SCHEDULING:: previous efactor of $_status = ${previous.eFactor}");
     debugPrint("DEBUG::SCHEDULING:: normLateness = $normLateness");
     debugPrint("DEBUG::SCHEDULING:: normScore = $normScore");
-    debugPrint("DEBUG::SCHEDULING:: efactor of $_status = $eFactor");
+    debugPrint("DEBUG::SCHEDULING:: efactor of $_status = $eFactor"); */
+    debugPrint("DEBUG::SCHEDULING:: for card of $_status");
+    debugPrint("DEBUG::SCHEDULING:: score = $score");
 
-    if (score < 1) {
+    if (previous.streak == 0 && score < 1) {
       //this has an issue, if a card is hard but it was easy before,
       // the algorithm doesen't account for the fact that it was easy before
       streak = 0;

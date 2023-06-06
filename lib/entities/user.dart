@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:flashcard_app/entities/deck.dart';
+import 'package:flutter/cupertino.dart';
 
 class User {
   String _name = "";
@@ -22,6 +23,21 @@ class User {
       if (deck.name == deckName) return deck;
     }
     return null;
+  }
+
+  void removeDeck(String deckName) {
+    debugPrint("DEBUG::DELETE:: user deleting $deckName");
+    Deck? toRemove;
+    for (var deck in _decks ?? []) {
+      debugPrint("DEBUG::DELETE:: iterating");
+      if (deck.name == deckName) {
+        toRemove = deck;
+        break;
+      }
+    }
+    if (toRemove != null) {
+      _decks!.remove(toRemove);
+    }
   }
 }
 

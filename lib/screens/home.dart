@@ -48,6 +48,11 @@ class DeckList extends StatelessWidget {
                   decks.deckNames[index],
                   style: TextStyle(color: theme.colorScheme.onSurface),
                 ),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () =>
+                      decks.removeFromDeckList(decks.items[index].name),
+                ),
               ),
             );
           });

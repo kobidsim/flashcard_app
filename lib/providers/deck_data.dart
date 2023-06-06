@@ -32,4 +32,9 @@ class DeckData extends ChangeNotifier {
     _deck!.changeCardStatus(card, status);
     notifyListeners();
   }
+
+  void removeCard(String front, String back) {
+    _deck!.removeCard(front, back);
+    notifyListeners();
+  }
 }
