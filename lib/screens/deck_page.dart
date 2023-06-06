@@ -18,6 +18,10 @@ class _DeckPageState extends State<DeckPage> {
   Widget build(BuildContext context) {
     //figure out why deckName is not defined
     Provider.of<DeckData>(context, listen: false).initDeck = widget.deckName;
+    final textTheme = Theme.of(context)
+        .textTheme
+        .headlineSmall!
+        .copyWith(color: Theme.of(context).colorScheme.onPrimary);
 
     return Scaffold(
       appBar: AppBar(
@@ -57,7 +61,10 @@ class _DeckPageState extends State<DeckPage> {
                                         listen: false)
                                     .cardsToStudy)))
                       },
-                  child: const Text("Study Cards")),
+                  child: Text(
+                    "Study Cards",
+                    style: textTheme,
+                  )),
             ),
             const SizedBox(
               height: 25,
@@ -121,62 +128,76 @@ class CardListHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textStyle = Theme.of(context)
+        .textTheme
+        .headlineSmall!
+        .copyWith(color: Theme.of(context).colorScheme.onBackground);
     return Container(
       height: 120,
-      decoration: const BoxDecoration(color: Colors.white),
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+      decoration:
+          BoxDecoration(color: Theme.of(context).colorScheme.background),
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text("Cards"),
-              ElevatedButton.icon(
+              Text(
+                "Cards",
+                style: textStyle,
+              ),
+              SizedBox(
+                height: 40,
+                width: 40,
+                child: FloatingActionButton(
                   onPressed: () => {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text("Card Info"),
-                                content: Column(
-                                  children: [
-                                    const Text("Front:"),
-                                    TextField(
-                                      autofocus: true,
-                                      controller: cardFrontText,
-                                      decoration: const InputDecoration(
-                                          hintText: 'Front of the card...'),
-                                    ),
-                                    const Text("Back:"),
-                                    TextField(
-                                      autofocus: false,
-                                      controller: cardBackText,
-                                      decoration: const InputDecoration(
-                                          hintText: 'Back of the card...'),
-                                    ),
-                                  ],
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text("Card Info"),
+                            content: Column(
+                              children: [
+                                const Text("Front:"),
+                                TextField(
+                                  autofocus: true,
+                                  controller: cardFrontText,
+                                  decoration: const InputDecoration(
+                                      hintText: 'Front of the card...'),
                                 ),
-                                actions: [
-                                  TextButton(
-                                      //submitting the user's input to controller
-                                      //to add a card to deck
-                                      onPressed: () {
-                                        if (cardFrontText.text != "" &&
-                                            cardBackText.text != "") {
-                                          Provider.of<DeckData>(context,
-                                                  listen: false)
-                                              .addCard(cardFrontText.text,
-                                                  cardBackText.text);
-                                          cardFrontText.text = "";
-                                          cardBackText.text = "";
-                                        }
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text("OK"))
-                                ],
-                              );
-                            })
-                      },
-                  icon: const Icon(Icons.add),
-                  label: const Text("Add")),
+                                const Text("Back:"),
+                                TextField(
+                                  autofocus: false,
+                                  controller: cardBackText,
+                                  decoration: const InputDecoration(
+                                      hintText: 'Back of the card...'),
+                                ),
+                              ],
+                            ),
+                            actions: [
+                              TextButton(
+                                  //submitting the user's input to controller
+                                  //to add a card to deck
+                                  onPressed: () {
+                                    if (cardFrontText.text != "" &&
+                                        cardBackText.text != "") {
+                                      Provider.of<DeckData>(context,
+                                              listen: false)
+                                          .addCard(cardFrontText.text,
+                                              cardBackText.text);
+                                      cardFrontText.text = "";
+                                      cardBackText.text = "";
+                                    }
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text("OK"))
+                            ],
+                          );
+                        })
+                  },
+                  child: const Icon(Icons.add),
+                ),
+              ),
             ],
           ),
 
@@ -200,6 +221,10 @@ class DeckSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context)
+        .textTheme
+        .bodyLarge!
+        .copyWith(color: Theme.of(context).colorScheme.onSecondary);
     return SizedBox(
       height: 100,
       child: Card(
@@ -216,12 +241,30 @@ class DeckSummary extends StatelessWidget {
               //not studied
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text("$newCards"), const Text("Not Studied")],
+                children: [
+                  Text(
+                    "$newCards",
+                    style: textTheme,
+                  ),
+                  Text(
+                    "Not Studied",
+                    style: textTheme,
+                  )
+                ],
               ),
               //To Review
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text("$toReview"), const Text("To Review")],
+                children: [
+                  Text(
+                    "$toReview",
+                    style: textTheme,
+                  ),
+                  Text(
+                    "To Review",
+                    style: textTheme,
+                  )
+                ],
               )
             ],
           );

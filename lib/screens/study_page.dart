@@ -114,8 +114,11 @@ class CardStack extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(10, 70, 10, 50),
         child: Stack(
           children: [
-            const Center(
-              child: Text("All done!"),
+            Center(
+              child: Text(
+                "All done!",
+                style: Theme.of(context).textTheme.displayMedium,
+              ),
             ),
             ...cards
           ],
@@ -153,7 +156,10 @@ class ReviewButton extends StatelessWidget {
                 : (type == ReviewButtonType.medium
                     ? MaterialStateProperty.all<Color>(Colors.yellow)
                     : MaterialStateProperty.all<Color>(Colors.red))),
-        child: Text(buttonText),
+        child: Text(
+          buttonText,
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
       ),
     );
   }
@@ -177,14 +183,24 @@ class MyCard extends StatefulWidget {
 class _MyCardState extends State<MyCard> {
   @override
   Widget build(BuildContext context) {
+    final textStyle = Theme.of(context).textTheme.titleLarge;
     List<Widget> before = [
-      Text("Q: ${widget.flashCard.front}"),
+      Text(
+        "Q: ${widget.flashCard.front}",
+        style: textStyle,
+      ),
     ];
 
     List<Widget> after = [
-      Text("Q: ${widget.flashCard.front}"),
+      Text(
+        "Q: ${widget.flashCard.front}",
+        style: textStyle,
+      ),
       const Divider(),
-      Text("A: ${widget.flashCard.back}"),
+      Text(
+        "A: ${widget.flashCard.back}",
+        style: textStyle,
+      ),
     ];
 
     return SizedBox(
