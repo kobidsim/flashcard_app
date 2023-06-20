@@ -15,7 +15,7 @@ class DeckData extends ChangeNotifier {
   int get yellowCards => _deck!.findCardsOfType(CardStatus.yellow);
   int get greenCards => _deck!.findCardsOfType(CardStatus.green);
   int get freshNewCards => (_deck!.findCardsOfType(CardStatus.new_));
-  int get toBeReviewed => (_deck!.toBeReviewed);
+  int get toBeReviewed => _deck?.toBeReviewed ?? 0;
   UnmodifiableListView<FlashCard> get cards => _deck!.cards;
 
   List<FlashCard> get cardsToStudy => _deck!.cardsToStudy();

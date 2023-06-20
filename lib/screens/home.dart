@@ -1,3 +1,4 @@
+import 'package:flashcard_app/providers/deck_data.dart';
 import 'package:flashcard_app/screens/deck_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +30,8 @@ class DeckList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final cardsForToday =
+        Provider.of<DeckData>(context, listen: true).toBeReviewed;
 
     return Consumer<DeckListData>(builder: (context, decks, child) {
       return ListView.builder(
@@ -46,8 +49,11 @@ class DeckList extends StatelessWidget {
                 leading: const Icon(Icons.book),
                 title: Text(
                   decks.deckNames[index],
-                  style: TextStyle(color: theme.colorScheme.onSurface),
+                  style: TextStyle(
+                    color: theme.colorScheme.onSurface,
+                  ),
                 ),
+                subtitle: Text("Cards for today: $cardsForToday"),
                 trailing: IconButton(
                   icon: const Icon(Icons.delete),
                   onPressed: () =>

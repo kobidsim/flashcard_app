@@ -6,12 +6,10 @@ import 'package:flutter/cupertino.dart';
 class User {
   String _name = "";
   List<Deck>? _decks;
-  late int _xp;
 
   User(String name) {
     _name = name;
     _decks = <Deck>[];
-    _xp = 0;
   }
 
   String get name => _name;

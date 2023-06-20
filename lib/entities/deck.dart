@@ -5,11 +5,9 @@ import 'package:flashcard_app/entities/flash_card.dart';
 class Deck {
   final String _name;
   List<FlashCard>? _cards;
-  late int _xp;
 
   Deck(this._name) {
     _cards = <FlashCard>[];
-    _xp = 0;
   }
 
   //counts the cards of the specific status
