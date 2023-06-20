@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 enum CardStatus { red, yellow, green, new_ }
 
 class Performance {
-  int streak = 0;
-  double eFactor = 2.5;
-  double interval = 0.0;
+  int streak;
+  double eFactor;
+  double interval;
   Performance(this.streak, this.eFactor, this.interval);
 }
 
@@ -15,6 +15,7 @@ class FlashCard {
   String _front = "";
   String _back = "";
   CardStatus _status = CardStatus.new_;
+  int _xp = 0;
   //_reviewed is True for cards that don't need to be currently reviewed
   //it is not the same as CardStatus.new_
   bool? _reviewed;
@@ -38,6 +39,7 @@ class FlashCard {
   CardStatus get status => _status;
   bool get reviewed => _reviewed!;
   DateTime get scheduledFor => _scheduledFor;
+  int get xp => _xp;
 
   //setters
   set setFront(String front) => _front = front;
@@ -61,8 +63,8 @@ class FlashCard {
     double latenessPercent = min(lateness, previous.interval) /
         previous
             .interval; //calculating how late the user is based on the given interval of the card
-    double normLateness = 2 * (latenessPercent) - 1;
-    //currently this form of efactor calculation treats Easy and Medium score as the same thing when scheduled
+    updateXp(latenessPercent, _scheduledFor);
+    double normLateness = 2 * (latenessPercent) - 1; //normalizing from 1 to -1
     eFactor = min(
         max(
             1.3,
@@ -70,22 +72,12 @@ class FlashCard {
                 0.1 * (normLateness + normScore) +
                 (1 / (previous.streak > 3 ? previous.streak : 3)) * normScore),
         2.5);
-    /* debugPrint("DEBUG::SCHEDULING:: lateness = $lateness");
-    debugPrint("DEBUG::SCHEDULING:: latenessPercent = $latenessPercent");
-    debugPrint("DEBUG::SCHEDULING:: Prev Interval = $normLateness"); */
-    /* debugPrint(
-        "DEBUG::SCHEDULING:: previous efactor of $_status = ${previous.eFactor}");
-    debugPrint("DEBUG::SCHEDULING:: normLateness = $normLateness");
-    debugPrint("DEBUG::SCHEDULING:: normScore = $normScore");
-    debugPrint("DEBUG::SCHEDULING:: efactor of $_status = $eFactor"); */
-    debugPrint("DEBUG::SCHEDULING:: for card of $_status");
-    debugPrint("DEBUG::SCHEDULING:: score = $score");
 
     if (previous.streak == 0 && score < 1) {
       //this has an issue, if a card is hard but it was easy before,
       // the algorithm doesen't account for the fact that it was easy before
       streak = 0;
-      interval = 0.5;
+      interval = 0.04;
     } else {
       streak = previous.streak + 1;
       interval = previous.interval * eFactor;
@@ -94,16 +86,29 @@ class FlashCard {
     return Performance(streak, eFactor, interval);
   }
 
+  //algorithm starts here
   void changeCardStatus(CardStatus status) {
     DateTime reviewTime = DateTime.now();
     Duration lateness = reviewTime.difference(_scheduledFor);
+    debugPrint(
+        "DEBUG::LATENESS VS XP:: lateness = $lateness || scheduledFor = $_scheduledFor");
     _performance =
         updatePerformance(status.index, (lateness.inHours.toDouble() / 24.0));
-    Duration intervalDuration = Duration(days: _performance.interval.toInt());
+    Duration intervalDuration =
+        Duration(hours: (_performance.interval * 24).ceil());
     _scheduledFor = _scheduledFor.add(intervalDuration);
-    /* debugPrint(
-        "DEBUG::SCHEDULING:: Current Date = ${DateTime.now().year}/${DateTime.now().month}/${DateTime.now().day}"); */
     debugPrint(
         "DEBUG::SCHEDULING:: Card Scheduled For = ${_scheduledFor.year}/${_scheduledFor.month}/${_scheduledFor.day}");
+  }
+
+  void updateXp(double latenessPercent, DateTime lastReview) {
+    double reward = (1 - pow(latenessPercent, 0.4)) * 4;
+    Duration timeSinceLastReview = DateTime.now().difference(lastReview);
+    if (timeSinceLastReview > const Duration(hours: 2)) {
+      _xp += 1 + reward.ceil();
+    }
+    //debugPrint("DEBUG::LATENESS VS XP:: time since last review = $lastReview");
+    //debugPrint(
+    //    "DEBUG::LATENESS VS XP:: $latenessPercent || || ${reward.round() + 1}")
   }
 }

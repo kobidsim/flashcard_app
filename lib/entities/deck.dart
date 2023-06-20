@@ -5,9 +5,11 @@ import 'package:flashcard_app/entities/flash_card.dart';
 class Deck {
   final String _name;
   List<FlashCard>? _cards;
+  late int _xp;
 
   Deck(this._name) {
     _cards = <FlashCard>[];
+    _xp = 0;
   }
 
   //counts the cards of the specific status
@@ -25,8 +27,7 @@ class Deck {
     DateTime now = DateTime.now();
     List<FlashCard> unreviewedCards = <FlashCard>[];
     for (var card in _cards ?? <FlashCard>[]) {
-      //for testing scheduling algorithm
-      //if (true) {
+      //for testing scheduling algorithm //if (true) {
       if (now.isAfter(card.scheduledFor)) {
         unreviewedCards.add(card);
       }
@@ -75,4 +76,7 @@ class Deck {
   int get noOfCards => (_cards!.length);
   UnmodifiableListView<FlashCard> get cards =>
       UnmodifiableListView(_cards ?? <FlashCard>[]);
+  int get totalXp => (_cards!.isNotEmpty
+      ? _cards!.map((card) => card.xp).reduce((a, b) => a + b)
+      : 0);
 }

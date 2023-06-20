@@ -53,9 +53,7 @@ class _StudyPageState extends State<StudyPage> {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("DEBUG:: flashCards length = ${widget.flashCards.length}");
     cards = initStackOfCards();
-    debugPrint("DEBUG:: cards length = ${cards.length}");
 
     final List<Widget> reviewButtons = [
       Expanded(
