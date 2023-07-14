@@ -104,7 +104,8 @@ class FlashCard {
   void updateXp(double latenessPercent, DateTime lastReview) {
     double reward = (1 - pow(latenessPercent, 0.4)) * 4;
     Duration timeSinceLastReview = DateTime.now().difference(lastReview);
-    if (timeSinceLastReview > const Duration(hours: 2)) {
+    if (timeSinceLastReview > const Duration(hours: 2) ||
+        _status != CardStatus.new_) {
       _xp += 1 + reward.ceil();
     }
     //debugPrint("DEBUG::LATENESS VS XP:: time since last review = $lastReview");

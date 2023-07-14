@@ -1,4 +1,5 @@
 import 'package:flashcard_app/providers/deck_data.dart';
+import 'package:flashcard_app/providers/user_data.dart';
 import 'package:flashcard_app/screens/deck_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,15 @@ class MyHomePage extends StatelessWidget {
         title: const Text(
           'My Decks',
         ),
+        actions: [
+          Padding(
+              padding: const EdgeInsets.all(10),
+              child: GestureDetector(
+                  onTap: () {
+                    showUserInfo(context);
+                  },
+                  child: const Icon(Icons.supervised_user_circle)))
+        ],
       ),
       body: const DeckList(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -105,4 +115,19 @@ class AddDeckButton extends StatelessWidget {
       child: const Icon(Icons.add),
     );
   }
+}
+
+void showUserInfo(BuildContext context) {
+  showDialog(
+    barrierDismissible: true,
+    context: context,
+    builder: (context) {
+      final username = Provider.of<UserData>(context, listen: true).name;
+      final xp = Provider.of<UserData>(context, listen: true).xp;
+      return AlertDialog(
+        title: const Text("User Info"),
+        content: Center(child: Text("Username: $username\nXP: $xp")),
+      );
+    },
+  );
 }
