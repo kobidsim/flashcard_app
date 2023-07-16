@@ -1,11 +1,14 @@
 import 'package:flashcard_app/providers/deck_data.dart';
 import 'package:flashcard_app/providers/deck_list_data.dart';
 import 'package:flashcard_app/providers/user_data.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'screens/home.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flashcard_app/keys.dart';
 
-void main() {
+void main() async {
+  await Supabase.initialize(url: testURL, anonKey: testANON);
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => DeckListData()),
     ChangeNotifierProvider(create: (context) => DeckData()),
@@ -29,3 +32,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+var supabase = Supabase.instance.client;
