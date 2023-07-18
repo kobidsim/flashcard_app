@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:flashcard_app/keys.dart';
 
 void main() async {
-  await Supabase.initialize(url: testURL, anonKey: testANON);
+  await Supabase.initialize(url: URL, anonKey: ANON);
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => DeckListData()),
     ChangeNotifierProvider(create: (context) => DeckData()),
